@@ -1,0 +1,65 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --blue: #2F5AF0;
+  --navy: #122159;
+  --blue-dark: #1C40C1;
+  --cool-gray: #959DBC;
+  --near-black: #1E1E1E;
+  --white: #ffffff;
+  --surface: #f4f6ff;
+  --card-bg: #ffffff;
+  --border: rgba(149, 157, 188, 0.18);
+  --font: 'Outfit', system-ui, sans-serif;
+}
+
+html {
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  color: var(--near-black);
+  background: var(--white);
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+button {
+  font-family: var(--font);
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Utility: blue gradient text */
+.text-gradient {
+  background: linear-gradient(135deg, #2F5AF0 0%, #6B8FF5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--cool-gray); border-radius: 3px; }

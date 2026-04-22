@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx cloudflared:*)",
+      "Bash(jobs)",
+      "Bash(xargs sed:*)"
+    ]
+  }
+}
