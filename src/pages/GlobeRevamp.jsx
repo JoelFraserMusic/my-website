@@ -9,11 +9,11 @@ import datascapeLogo from '../assets/datascape-logo.png'
 const C = {
   bg:     '#F5F5F5',
   white:  '#ffffff',
-  border: '#E5E0D8',
+  border: '#E8E8E8',
   text:   '#1E1E1E',
-  muted:  '#5E5A54',
+  muted:  '#5A6175',
   blue:   '#2F5AF0',
-  warm:   '#B8864E',
+  warm:   '#2F5AF0',
   navy:   '#0c1535',
   dark:   '#0d0d0f',
 }
@@ -59,7 +59,7 @@ function DataPanel({ scrollProgress }) {
       <motion.div style={{ fontSize:14, fontWeight:700, color:C.blue, marginBottom:5, letterSpacing:'0.02em', fontFamily:'monospace' }}>{cellMV}</motion.div>
       <motion.div style={{ fontSize:11, color:'#6B7490', marginBottom:12, fontFamily:'monospace' }}>{coordMV}</motion.div>
       <div style={{ display:'flex', alignItems:'center', gap:6, fontSize:11, color:C.warm, fontWeight:600 }}>
-        <span style={{ width:6,height:6,borderRadius:'50%',background:C.warm,boxShadow:'0 0 8px rgba(184,134,78,0.7)',animation:'globePulse 1.4s ease-in-out infinite' }} />
+        <span style={{ width:6,height:6,borderRadius:'50%',background:C.warm,boxShadow:'0 0 8px rgba(47,90,240,0.5)',animation:'globePulse 1.4s ease-in-out infinite' }} />
         Querying...
       </div>
     </div>
@@ -143,7 +143,7 @@ export default function GlobeRevamp() {
   const d3 = useTransform(scrollProgress, [0.65, 0.74, 1],          [0.25, 1, 1])
   const panelOp = useTransform(scrollProgress, [0.10, 0.22], [0, 1])
 
-  const BG = 'linear-gradient(180deg,#faf8f4 0%,#f5f2ec 45%,#faf8f4 100%)'
+  const BG = '#ffffff'
 
   const TICKER_ITEMS = [
     'The Spatial Cloud','Sub-second queries','190+ countries',
@@ -225,8 +225,8 @@ export default function GlobeRevamp() {
           <div style={{
             position:'absolute', inset:0, pointerEvents:'none', zIndex:0,
             backgroundImage:[
-              'repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(139,109,75,0.07) 79px,rgba(139,109,75,0.07) 80px)',
-              'repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(139,109,75,0.07) 79px,rgba(139,109,75,0.07) 80px)',
+              'repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(0,0,0,0.04) 79px,rgba(0,0,0,0.04) 80px)',
+              'repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(0,0,0,0.04) 79px,rgba(0,0,0,0.04) 80px)',
             ].join(','),
           }} />
 
@@ -241,7 +241,7 @@ export default function GlobeRevamp() {
             <FloatLabel text="Sub-meter precision"   delay={1.35} style={{ bottom:'22%', right:'6%' }} />
           </motion.div>
 
-          <motion.div style={{ position:'absolute', top:0, left:0, right:0, zIndex:5, textAlign:'center', opacity:heroOp, y:heroY, padding:'clamp(88px,11vh,116px) 24px 0', pointerEvents:'none' }}>
+          <motion.div style={{ position:'absolute', top:0, left:0, right:0, zIndex:5, textAlign:'center', opacity:heroOp, y:heroY, padding:'clamp(120px,14vh,148px) 24px 0', pointerEvents:'none' }}>
             <div style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'6px 14px 6px 10px', borderRadius:100, border:'1px solid rgba(47,90,240,0.22)', background:'rgba(47,90,240,0.06)', color:C.blue, fontSize:12, fontWeight:700, marginBottom:28, letterSpacing:'0.09em', textTransform:'uppercase', fontFamily:font }}>
               <span style={{ width:7, height:7, borderRadius:'50%', background:C.blue, boxShadow:'0 0 10px rgba(47,90,240,0.8)', animation:'globePulse 2.2s ease-in-out infinite' }} />
               The Spatial Cloud

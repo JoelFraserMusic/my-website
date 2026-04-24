@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import AnnouncementBanner from './components/AnnouncementBanner'
 
 function NavbarOnly() {
   useEffect(() => {
@@ -43,7 +44,10 @@ function Layout() {
 
   return (
     <>
-      <Navbar />
+      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100 }}>
+        <AnnouncementBanner />
+        <Navbar />
+      </div>
       <main>
         <Routes>
           <Route path="/" element={<GlobeRevamp />} />

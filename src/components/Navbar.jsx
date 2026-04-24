@@ -46,8 +46,8 @@ const products = [
 const otherLinks = [
   { label: 'Data Providers', href: '#' },
   { label: 'Developers', href: '#' },
-  { label: 'Pricing', href: '#' },
-  { label: 'Contact', href: '/contact', isRoute: true },
+  { label: 'Pricing', href: 'https://biggeo.com/pricing#' },
+  { label: 'Contact', href: 'https://biggeo.com/get-started', isRoute: true },
 ]
 
 export default function Navbar() {
@@ -89,9 +89,9 @@ export default function Navbar() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       style={{
-        position: 'fixed',
+        position: 'relative',
         top: 0, left: 0, right: 0,
-        zIndex: 100,
+        zIndex: 1,
         height: '68px',
         display: 'flex',
         alignItems: 'center',
