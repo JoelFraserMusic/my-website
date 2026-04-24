@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import DataNetwork from '../components/DataNetwork'
+import datalabLogo from '../assets/datalab-logo.png'
 
 function SectionLabel({ text, dark }) {
   return (
@@ -123,13 +124,12 @@ export default function Datalab() {
           <motion.div initial={{ opacity:0, y:12 }} animate={{ opacity:1, y:0 }}
             transition={{ duration:0.5, delay:0.05, ease:[0.22,1,0.36,1] }}
             style={{
-              display:'inline-block', fontFamily:'var(--font)', fontWeight:600,
-              fontSize:'12px', letterSpacing:'0.12em', textTransform:'uppercase',
-              color:'#6B8FF5', marginBottom:'20px',
-              padding:'6px 14px', borderRadius:'100px',
-              border:'1px solid rgba(107,143,245,0.3)', background:'rgba(47,90,240,0.1)',
+              display:'inline-flex', alignItems:'center',
+              marginBottom:'20px', padding:'7px 16px', borderRadius:'100px',
+              background:'rgba(255,255,255,0.95)',
+              boxShadow:'0 2px 12px rgba(0,0,0,0.15)',
             }}>
-            Datalab
+            <img src={datalabLogo} alt="Datalab" style={{ height:'18px', width:'auto', display:'block' }} />
           </motion.div>
 
           <motion.h1 initial={{ opacity:0, y:28 }} animate={{ opacity:1, y:0 }}

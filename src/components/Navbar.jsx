@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link, useLocation } from 'react-router-dom'
+import datascapeLogo from '../assets/datascape-logo.png'
+import datalabLogo from '../assets/datalab-logo.png'
+import marketplaceLogo from '../assets/marketplace-logo.png'
 
 const products = [
   {
@@ -8,9 +11,10 @@ const products = [
     path: '/datascape',
     desc: 'Explore spatial data without the complexity',
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
-        <path strokeLinecap="round" strokeLinejoin="round"
-          d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+      <svg width="24" height="24" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21.6909 43.0577L10 49.8074L33.4783 63.3626C37.0801 65.4421 42.9199 65.4421 46.5217 63.3626L70 49.8074L58.2126 43.002L46.4252 49.8074C42.8233 51.8869 36.9836 51.8869 33.3817 49.8074L21.6909 43.0577Z" fill="#122159"/>
+        <path d="M26.9626 30.9258L15.1211 37.7625L33.382 48.3054C36.9838 50.3849 42.8236 50.3849 46.4254 48.3054L64.6863 37.7625L53.0495 31.044L46.6301 34.7502C43.0283 36.8297 37.1885 36.8297 33.5866 34.7502L26.9626 30.9258Z" fill="#2F5AF0"/>
+        <path d="M20.541 25.71L40.1062 14.4141L59.6714 25.71L46.628 33.2407C43.0261 35.3202 37.1863 35.3202 33.5845 33.2407L20.541 25.71Z" fill="#2F5AF0"/>
       </svg>
     ),
   },
@@ -19,9 +23,10 @@ const products = [
     path: '/datalab',
     desc: 'Build spatial applications with our APIs & SDKs',
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
-        <path strokeLinecap="round" strokeLinejoin="round"
-          d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
+      <svg width="24" height="24" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fillRule="evenodd" clipRule="evenodd" d="M97.9764 12.0217L28.8516 0L34.6164 33.1476L70.5958 39.4049L76.8527 75.3821L109.998 81.1466L97.9764 12.0217Z" fill="#122159"/>
+        <path fillRule="evenodd" clipRule="evenodd" d="M68.1856 41.8033L14.4219 32.4531L20.1867 65.6007L40.805 69.1865L44.3905 89.8027L77.5359 95.5671L68.1856 41.8033Z" fill="#1C40C1"/>
+        <path d="M0 64.9141L38.4027 71.5928L45.0814 109.995L6.67873 103.317L0 64.9141Z" fill="#2F5AF0"/>
       </svg>
     ),
   },
@@ -30,9 +35,9 @@ const products = [
     path: '/marketplace',
     desc: "Access the world's licensed spatial datasets",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
-        <path strokeLinecap="round" strokeLinejoin="round"
-          d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3" />
+      <svg width="24" height="24" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M25.0469 43.9998C34.8899 34.1568 46.5752 26.3489 59.4358 21.0219C72.2963 15.6949 86.0801 12.9531 100 12.9531C113.92 12.9531 127.704 15.6949 140.565 21.0219C153.425 26.3489 165.111 34.1568 174.954 43.9998L152.468 66.4858C145.577 59.5957 137.398 54.1302 128.395 50.4013C119.393 46.6724 109.744 44.7531 100 44.7531C90.2561 44.7531 80.6074 46.6724 71.6051 50.4013C62.6027 54.1302 54.423 59.5957 47.5329 66.4858L25.0469 43.9998Z" fill="#122159"/>
+        <path fillRule="evenodd" clipRule="evenodd" d="M100 87H10L40 187H100H160L190 87H100ZM100 87C100 114.612 122.38 137 150 137C122.38 137 100 159.388 100 187C100 159.388 77.6204 137 50 137C77.6204 137 100 114.612 100 87Z" fill="#2F5AF0"/>
       </svg>
     ),
   },
@@ -76,7 +81,7 @@ export default function Navbar() {
   // On non-home pages the nav is always "scrolled" (white bg)
   const solidNav = scrolled || !isHome
 
-  const linkColor = solidNav ? '#1E1E1E' : 'rgba(255,255,255,0.82)'
+  const linkColor = '#1E1E1E'
 
   return (
     <motion.header
@@ -104,11 +109,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
           <img
-            src={
-              solidNav
-                ? 'https://sabiggeomedia01.blob.core.windows.net/media/467c0531-1db4-478f-810e-f2f7bb5253df'
-                : 'https://sabiggeomedia01.blob.core.windows.net/media/b2982766-96ac-4fb2-a645-2194b432df4a'
-            }
+            src="https://sabiggeomedia01.blob.core.windows.net/media/467c0531-1db4-478f-810e-f2f7bb5253df"
             alt="BigGeo"
             style={{ height: '32px', width: 'auto', display: 'block' }}
           />
@@ -187,8 +188,7 @@ export default function Navbar() {
                         <div style={{
                           flexShrink: 0, width: '36px', height: '36px',
                           borderRadius: '9px', background: 'rgba(47,90,240,0.08)',
-                          color: '#2F5AF0', display: 'flex',
-                          alignItems: 'center', justifyContent: 'center',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
                           marginTop: '1px',
                         }}>
                           {p.icon}

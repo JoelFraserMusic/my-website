@@ -7,6 +7,11 @@ import Datalab from './pages/Datalab'
 import Marketplace from './pages/Marketplace'
 import Contact from './pages/Contact'
 import GetStarted from './pages/GetStarted'
+import GlobePage from './pages/GlobePage'
+import GlobeRevamp from './pages/GlobeRevamp'
+import TerrainPage from './pages/TerrainPage'
+import WarpPage from './pages/WarpPage'
+import BlobPage from './pages/BlobPage'
 
 function Layout() {
   const location = useLocation()
@@ -25,11 +30,17 @@ function Layout() {
       <Navbar />
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<GlobeRevamp />} />
+          <Route path="/old-home" element={<Home />} />
           <Route path="/datascape" element={<Datascape />} />
           <Route path="/datalab" element={<Datalab />} />
           <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/globe" element={<GlobeRevamp />} />
+          <Route path="/exp/globe" element={<GlobePage />} />
+          <Route path="/exp/terrain" element={<TerrainPage />} />
+          <Route path="/exp/warp" element={<WarpPage />} />
+          <Route path="/exp/blob" element={<BlobPage />} />
         </Routes>
       </main>
       <Footer />
