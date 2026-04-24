@@ -15,12 +15,13 @@ import BlobPage from './pages/BlobPage'
 
 function Layout() {
   const location = useLocation()
-  const standalone = location.pathname === '/get-started'
+  const standalone = location.pathname === '/get-started' || location.pathname === '/navbar-only'
 
   if (standalone) {
     return (
       <Routes>
         <Route path="/get-started" element={<GetStarted />} />
+        <Route path="/navbar-only" element={<Navbar />} />
       </Routes>
     )
   }
