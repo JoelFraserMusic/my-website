@@ -4,6 +4,7 @@ import GeodesicGlobe from '../components/GeodesicGlobe'
 import datalabLogo from '../assets/datalab-logo.png'
 import marketplaceLogo from '../assets/marketplace-logo.png'
 import datascapeLogo from '../assets/datascape-logo.png'
+import BigGeoAI from '../components/BigGeoAI'
 
 // ─── Color tokens ─────────────────────────────────────────────────────────────
 const C = {
@@ -353,41 +354,9 @@ export default function GlobeRevamp() {
         </div>
       </section>
 
-      <Divider />
+      <BigGeoAI />
 
-      {/* ── BigGeo AI Banner ──────────────────────────────────────────────────── */}
-      <section style={{ padding:'96px clamp(20px,5vw,64px)', background:C.bg }}>
-        <div style={{ maxWidth:1040, margin:'0 auto' }}>
-          <motion.div initial={{ opacity:0, y:24 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true, margin:'-60px' }} transition={{ duration:0.65, ease:[0.22,1,0.36,1] }}
-            style={{ background:`linear-gradient(135deg,${C.navy} 0%,${C.dark} 60%)`, border:'1px solid rgba(47,90,240,0.25)', borderRadius:16, padding:'clamp(40px,5vw,64px) clamp(32px,5vw,72px)', position:'relative', overflow:'hidden', display:'grid', gridTemplateColumns:'1fr auto', gap:48, alignItems:'center' }}>
-            <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse 60% 100% at 0% 50%,rgba(47,90,240,0.18) 0%,transparent 70%)', pointerEvents:'none' }} />
-            <div style={{ position:'relative', zIndex:1 }}>
-              <div style={{ display:'inline-flex', alignItems:'center', gap:8, fontSize:10, fontWeight:700, letterSpacing:'1.4px', textTransform:'uppercase', color:C.blue, background:'rgba(47,90,240,0.12)', border:'1px solid rgba(47,90,240,0.3)', borderRadius:999, padding:'4px 12px', marginBottom:16, fontFamily:font }}>
-                <span style={{ width:6, height:6, borderRadius:'50%', background:C.blue, animation:'globePulse 2s ease-in-out infinite' }} />
-                Now in Beta
-              </div>
-              <h2 style={{ fontFamily:font, fontWeight:800, fontSize:'clamp(22px,2.8vw,32px)', color:'#fff', letterSpacing:'-0.5px', lineHeight:1.2, marginBottom:12 }}>
-                Introducing <span style={{ color:C.blue }}>BigGeo AI</span>: spatial data inside your AI assistant.
-              </h2>
-              <p style={{ fontFamily:font, fontSize:15, color:'rgba(180,198,255,0.75)', lineHeight:1.7, maxWidth:480 }}>
-                For the first time, AI can touch the world it reasons about. BigGeo AI connects Claude and ChatGPT directly to real, governed spatial data. Ask a question about any location. Get a verified answer in seconds. Not a guess.
-              </p>
-            </div>
-            <div style={{ position:'relative', zIndex:1, display:'flex', flexDirection:'column', gap:10, flexShrink:0 }}>
-              <motion.button whileHover={{ scale:1.04 }} whileTap={{ scale:0.97 }}
-                style={{ fontFamily:font, fontWeight:600, fontSize:14, color:'#fff', background:C.blue, border:'none', borderRadius:8, padding:'13px 28px', cursor:'pointer', whiteSpace:'nowrap' }}>
-                Request Access
-              </motion.button>
-              <motion.button whileHover={{ scale:1.04 }} whileTap={{ scale:0.97 }}
-                style={{ fontFamily:font, fontWeight:600, fontSize:14, color:'rgba(180,198,255,0.82)', background:'transparent', border:'1px solid rgba(107,143,245,0.35)', borderRadius:8, padding:'13px 28px', cursor:'pointer', whiteSpace:'nowrap' }}>
-                Learn More
-              </motion.button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
-      <Divider />
 
       {/* ── How It Works ──────────────────────────────────────────────────────── */}
       <section style={{ padding:'96px clamp(20px,5vw,64px)', background:C.white }}>
