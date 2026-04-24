@@ -1,5 +1,20 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
+
+function NavbarOnly() {
+  useEffect(() => {
+    document.body.style.background = '#fff'
+    document.body.style.overflow = 'hidden'
+    document.body.style.margin = '0'
+    return () => {
+      document.body.style.background = ''
+      document.body.style.overflow = ''
+      document.body.style.margin = ''
+    }
+  }, [])
+  return <Navbar />
+}
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import Datascape from './pages/Datascape'
@@ -21,7 +36,7 @@ function Layout() {
     return (
       <Routes>
         <Route path="/get-started" element={<GetStarted />} />
-        <Route path="/navbar-only" element={<Navbar />} />
+        <Route path="/navbar-only" element={<NavbarOnly />} />
       </Routes>
     )
   }
