@@ -172,29 +172,29 @@ export default function GlobeRevamp() {
   const IC = { fill:'none', stroke:'#AAAAAA', strokeWidth:'1.5', strokeLinecap:'round', strokeLinejoin:'round' }
   // Exactly 12 categories matching the product section, 6 per row
   const INDUSTRIES = [
-    { name:'Geospatial Data',
+    { name:'Geospatial Data',           href:'#',
       icon:<svg viewBox="0 0 24 24" width="24" height="24" {...IC}><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg> },
-    { name:'AI & Machine Learning Data',
+    { name:'AI & Machine Learning Data', href:'#',
       icon:<svg viewBox="0 0 24 24" width="24" height="24" {...IC}><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 9V5h6v4M9 15v4h6v-4M4 9h5v6H4M15 9h5v6h-5"/></svg> },
-    { name:'Real Estate Data',
+    { name:'Real Estate Data',           href:'#',
       icon:<svg viewBox="0 0 24 24" width="24" height="24" {...IC}><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> },
-    { name:'Commerce Data',
+    { name:'Commerce Data',              href:'#',
       icon:<svg viewBox="0 0 24 24" width="24" height="24" {...IC}><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> },
-    { name:'B2B Data',
+    { name:'B2B Data',                   href:'#',
       icon:<svg viewBox="0 0 24 24" width="24" height="24" {...IC}><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg> },
-    { name:'Risk Data',
+    { name:'Risk Data',                  href:'#',
       icon:<svg viewBox="0 0 24 24" width="24" height="24" {...IC}><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> },
-    { name:'Infrastructure Data',
+    { name:'Infrastructure Data',        href:'#',
       icon:<svg viewBox="0 0 24 24" width="24" height="24" {...IC}><path d="M3 22V9l7-7v20M13 22V15h8v7M13 10l5-4h3v12"/><line x1="2" y1="22" x2="22" y2="22"/></svg> },
-    { name:'Environmental Data',
+    { name:'Environmental Data',         href:'#',
       icon:<svg viewBox="0 0 24 24" width="24" height="24" {...IC}><path d="M3 20l5-9 4 5 3-4 5 8H3z"/><circle cx="18" cy="7" r="2"/></svg> },
-    { name:'Weather & Climate Data',
+    { name:'Weather & Climate Data',     href:'#',
       icon:<svg viewBox="0 0 24 24" width="24" height="24" {...IC}><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg> },
-    { name:'Consumer Data',
+    { name:'Consumer Data',              href:'#',
       icon:<svg viewBox="0 0 24 24" width="24" height="24" {...IC}><path d="M6 2h12l2 6H4L6 2z"/><path d="M4 8v13h16V8"/><line x1="9" y1="21" x2="9" y2="12"/><line x1="15" y1="21" x2="15" y2="12"/></svg> },
-    { name:'Population Data',
+    { name:'Population Data',            href:'#',
       icon:<svg viewBox="0 0 24 24" width="24" height="24" {...IC}><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg> },
-    { name:'Marketing Data',
+    { name:'Marketing Data',             href:'#',
       icon:<svg viewBox="0 0 24 24" width="24" height="24" {...IC}><path d="M3 8h2l10-5v14L5 12H3a1 1 0 01-1-1V9a1 1 0 011-1z"/><path d="M5 12v5a1 1 0 002 0v-5"/></svg> },
   ]
 
@@ -416,12 +416,14 @@ export default function GlobeRevamp() {
             initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true, margin:'-40px' }} transition={{ duration:0.55, ease:[0.22,1,0.36,1] }}
             style={{ display:'grid', gridTemplateColumns:'repeat(6, 1fr)', borderTop:`1px solid ${C.border}`, borderLeft:`1px solid ${C.border}` }}>
             {INDUSTRIES.map((ind) => (
-              <motion.div key={ind.name}
-                whileHover={{ background:'rgba(47,90,240,0.025)' }}
-                style={{ borderRight:`1px solid ${C.border}`, borderBottom:`1px solid ${C.border}`, padding:'32px 16px', display:'flex', flexDirection:'column', alignItems:'center', gap:12, cursor:'default' }}>
-                {ind.icon}
-                <span style={{ fontFamily:font, fontSize:12.5, fontWeight:500, color:'#555555', textAlign:'center', lineHeight:1.4 }}>{ind.name}</span>
-              </motion.div>
+              <a key={ind.name} href={ind.href} style={{ textDecoration:'none', display:'contents' }}>
+                <motion.div
+                  whileHover={{ background:'rgba(47,90,240,0.025)' }}
+                  style={{ borderRight:`1px solid ${C.border}`, borderBottom:`1px solid ${C.border}`, padding:'32px 16px', display:'flex', flexDirection:'column', alignItems:'center', gap:12, cursor:'pointer' }}>
+                  {ind.icon}
+                  <span style={{ fontFamily:font, fontSize:12.5, fontWeight:500, color:'#555555', textAlign:'center', lineHeight:1.4 }}>{ind.name}</span>
+                </motion.div>
+              </a>
             ))}
           </motion.div>
         </div>
