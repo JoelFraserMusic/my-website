@@ -99,23 +99,29 @@ const FRAG = /* glsl */ `
     vec3 brandDark = vec3( 28.0,  64.0, 193.0) / 255.0;      // #1C40C1
     vec3 luminous  = vec3(0.985, 0.993, 1.000);
 
-    // ---- COMPOSE (primary bloom first, then secondary on top) -------------
+    // ---- COMPOSE ----------------------------------------------------------
+    // No luminous core overlays — those were the "white blob" in the middle.
+    // The deepest blue is the brand-color center; the gradient flows
+    // continuously from edge to center without any sharp focal point.
     vec3 col = paper;
 
-    // PRIMARY: paper → surface → companion → brand → brandDark from outer
-    // halo to deepest core. Each stop uses smoothstep against the same
-    // radial bloom mask so the gradient stays clean and continuous.
-    col = mix(col, surface,   smoothstep(0.00, 0.30, bloom1) * 0.90);
-    col = mix(col, companion, smoothstep(0.20, 0.70, bloom1) * 0.78);
-    col = mix(col, brand,     smoothstep(0.45, 0.88, bloom1) * 0.62);
-    col = mix(col, brandDark, smoothstep(0.72, 0.96, bloom1) * 0.35);
-    // Hot core — bright luminous near-white at the very center
-    col = mix(col, luminous,  core1 * 0.80);
+    // PRIMARY: paper → surface → companion → brand → brandDark, opacity
+    // dialed back ~15% from previous so the blue feels lighter on the page.
+    col = mix(col, surface,   smoothstep(0.00, 0.30, bloom1) * 0.74);
+    col = mix(col, companion, smoothstep(0.20, 0.70, bloom1) * 0.64);
+    col = mix(col, brand,     smoothstep(0.45, 0.88, bloom1) * 0.48);
+    col = mix(col, brandDark, smoothstep(0.72, 0.96, bloom1) * 0.22);
 
-    // SECONDARY: same ladder, weaker contribution
-    col = mix(col, companion, smoothstep(0.10, 0.55, bloom2) * 0.45);
-    col = mix(col, brand,     smoothstep(0.35, 0.78, bloom2) * 0.35);
-    col = mix(col, luminous,  core2 * 0.55);
+    // SECONDARY: weaker, also without a core
+    col = mix(col, companion, smoothstep(0.10, 0.55, bloom2) * 0.36);
+    col = mix(col, brand,     smoothstep(0.35, 0.78, bloom2) * 0.24);
+
+    // ---- TOP-EDGE GUARD ---------------------------------------------------
+    // Blue can come close to the top but never touch it. Linearly blends
+    // the whole composition back toward paper inside the top ~22% of the
+    // viewport, snapping to pristine white at uv.y = 0.
+    float topFade = smoothstep(0.04, 0.22, uv.y);
+    col = mix(paper, col, topFade);
 
     gl_FragColor = vec4(col, 1.0);
   }
