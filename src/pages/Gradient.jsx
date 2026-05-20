@@ -71,7 +71,7 @@ const FRAG = /* glsl */ `
 
     // Scale breathing — bloom inhales and exhales every ~13s
     float breath = 1.0 + sin(uTime * 0.12) * 0.10;
-    float r1 = 0.85 * breath;
+    float r1 = 0.58 * breath;
 
     // Soft radial gradient
     float bloom1 = 1.0 - smoothstep(0.04, r1, d1);
@@ -88,7 +88,7 @@ const FRAG = /* glsl */ `
        0.55 + sin(p2 * 1.65) * 0.28
     );
     float d2 = length(st - c2);
-    float bloom2 = 1.0 - smoothstep(0.02, 0.52, d2);
+    float bloom2 = 1.0 - smoothstep(0.02, 0.38, d2);
     float core2 = pow(1.0 - smoothstep(0.0, 0.10, d2), 2.0);
 
     // ---- BRAND PALETTE (no invented hexes) --------------------------------
