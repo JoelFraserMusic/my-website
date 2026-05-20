@@ -28,16 +28,19 @@ import GlobeRevamp from './pages/GlobeRevamp'
 import TerrainPage from './pages/TerrainPage'
 import WarpPage from './pages/WarpPage'
 import BlobPage from './pages/BlobPage'
+import Exploration from './pages/Exploration'
+import Gradient from './pages/Gradient'
 
 function Layout() {
   const location = useLocation()
-  const standalone = location.pathname === '/get-started' || location.pathname === '/navbar-only'
+  const standalone = location.pathname === '/get-started' || location.pathname === '/navbar-only' || location.pathname === '/gradient'
 
   if (standalone) {
     return (
       <Routes>
         <Route path="/get-started" element={<GetStarted />} />
         <Route path="/navbar-only" element={<NavbarOnly />} />
+        <Route path="/gradient" element={<Gradient />} />
       </Routes>
     )
   }
@@ -61,6 +64,7 @@ function Layout() {
           <Route path="/exp/terrain" element={<TerrainPage />} />
           <Route path="/exp/warp" element={<WarpPage />} />
           <Route path="/exp/blob" element={<BlobPage />} />
+          <Route path="/exploration" element={<Exploration />} />
         </Routes>
       </main>
       <Footer />
