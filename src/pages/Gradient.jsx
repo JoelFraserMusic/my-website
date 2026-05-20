@@ -117,10 +117,11 @@ const FRAG = /* glsl */ `
     col = mix(col, brand,     smoothstep(0.35, 0.78, bloom2) * 0.24);
 
     // ---- TOP-EDGE GUARD ---------------------------------------------------
-    // Blue can come close to the top but never touch it. Linearly blends
-    // the whole composition back toward paper inside the top ~22% of the
-    // viewport, snapping to pristine white at uv.y = 0.
-    float topFade = smoothstep(0.04, 0.22, uv.y);
+    // Three.js PlaneGeometry UVs: uv.y = 1 is the TOP of the viewport.
+    // Fade the composition back to paper across the top ~12% so blue can
+    // come close to the top but the upper edge is locked to pure white.
+    float fromTop = 1.0 - uv.y;
+    float topFade = smoothstep(0.02, 0.12, fromTop);
     col = mix(paper, col, topFade);
 
     gl_FragColor = vec4(col, 1.0);
