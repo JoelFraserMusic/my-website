@@ -60,17 +60,17 @@ const FRAG = /* glsl */ `
     vec2 st = vec2(uv.x * aspect, uv.y);
 
     // ---- PRIMARY BLOOM ----------------------------------------------------
-    // Massive radial form, ~85% viewport radius. Drifts slowly. Pulses
-    // on a separate slow period so the breathing isn't tied to drift.
-    float driftPhase = uTime * 0.045;
+    // Massive radial form, ~85% viewport radius. Sweeps a wide path
+    // across the canvas on a ~28s cycle so the motion is actually felt.
+    float driftPhase = uTime * 0.18;
     vec2 c1 = vec2(
-      (0.50 + sin(driftPhase * 1.3) * 0.20) * aspect,
-       0.52 + cos(driftPhase * 1.05) * 0.16
+      (0.50 + sin(driftPhase * 1.30) * 0.36) * aspect,
+       0.50 + cos(driftPhase * 1.05) * 0.30
     );
     float d1 = length(st - c1);
 
-    // Slow scale breathing — bloom inhales and exhales every ~18s
-    float breath = 1.0 + sin(uTime * 0.085) * 0.08;
+    // Scale breathing — bloom inhales and exhales every ~13s
+    float breath = 1.0 + sin(uTime * 0.12) * 0.10;
     float r1 = 0.85 * breath;
 
     // Soft radial gradient
@@ -79,15 +79,16 @@ const FRAG = /* glsl */ `
     // Hot core — bright luminous center
     float core1 = pow(1.0 - smoothstep(0.0, 0.18 * breath, d1), 1.8);
 
-    // ---- SECONDARY BLOOM (asymmetry) --------------------------------------
-    // Smaller, fainter, drifts on a different period.
-    float p2 = uTime * 0.038;
+    // ---- SECONDARY BLOOM (asymmetry, opposite side of primary) ------------
+    // Smaller and fainter — drifts on the LEFT side of the canvas to
+    // counterweight the primary, on its own period so they're never synced.
+    float p2 = uTime * 0.16;
     vec2 c2 = vec2(
-      (0.75 + cos(p2 * 1.4) * 0.18) * aspect,
-       0.32 + sin(p2 * 1.6) * 0.18
+      (0.30 + cos(p2 * 1.40) * 0.28) * aspect,
+       0.55 + sin(p2 * 1.65) * 0.28
     );
     float d2 = length(st - c2);
-    float bloom2 = 1.0 - smoothstep(0.02, 0.48, d2);
+    float bloom2 = 1.0 - smoothstep(0.02, 0.52, d2);
     float core2 = pow(1.0 - smoothstep(0.0, 0.10, d2), 2.0);
 
     // ---- BRAND PALETTE (no invented hexes) --------------------------------
