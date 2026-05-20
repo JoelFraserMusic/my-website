@@ -79,16 +79,17 @@ const FRAG = /* glsl */ `
     // Hot core — bright luminous center
     float core1 = pow(1.0 - smoothstep(0.0, 0.18 * breath, d1), 1.8);
 
-    // ---- SECONDARY BLOOM (asymmetry, opposite side of primary) ------------
-    // Smaller and fainter — drifts on the LEFT side of the canvas to
-    // counterweight the primary, on its own period so they're never synced.
+    // ---- SECONDARY BLOOM (counterweight, lives on the LEFT) ---------------
+    // Starts firmly on the left (visible at page load), drifts within the
+    // left half of the canvas, on its own period so it never syncs with
+    // the primary.  sin(0)=0 keeps it at base.x at t=0.
     float p2 = uTime * 0.16;
     vec2 c2 = vec2(
-      (0.30 + cos(p2 * 1.40) * 0.28) * aspect,
-       0.55 + sin(p2 * 1.65) * 0.28
+      (0.20 + sin(p2 * 1.40) * 0.16) * aspect,   // X ∈ [0.04, 0.36]
+       0.55 + cos(p2 * 1.65) * 0.24              // Y ∈ [0.31, 0.79]
     );
     float d2 = length(st - c2);
-    float bloom2 = 1.0 - smoothstep(0.02, 0.38, d2);
+    float bloom2 = 1.0 - smoothstep(0.02, 0.40, d2);
     float core2 = pow(1.0 - smoothstep(0.0, 0.10, d2), 2.0);
 
     // ---- BRAND PALETTE (no invented hexes) --------------------------------
