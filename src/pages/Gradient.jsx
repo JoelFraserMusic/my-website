@@ -49,50 +49,72 @@ const FRAG = /* glsl */ `
   }
 
   void main() {
+    // ============================================================
+    // THE BLOOM — single massive radial light source on white paper.
+    // No noise, no flow, no warping. One big precise geometric form
+    // that slowly drifts and breathes, plus a smaller off-axis bloom
+    // for asymmetry. The Apple/Linear "distant light source" move.
+    // ============================================================
     vec2 uv = vUv;
     float aspect = uResolution.x / uResolution.y;
     vec2 st = vec2(uv.x * aspect, uv.y);
 
-    // Very slow time base — full loop takes minutes, not seconds.
-    float t = uTime * 0.03;
-
-    // Mild domain warp purely to organic-ify edges.
-    vec2 q;
-    q.x = fbm(st * 0.65 + t);
-    q.y = fbm(st * 0.65 + vec2(3.1, 1.7) + t * 0.6);
-    float n = fbm(st * 0.65 + q * 0.7);
-
-    // ONE huge soft wash. Drifts on its own slow period; the only
-    // moving element on the canvas.
-    vec2 c1 = vec2((0.45 + sin(uTime * 0.028) * 0.30) * aspect,
-                    0.50 + cos(uTime * 0.022) * 0.22);
+    // ---- PRIMARY BLOOM ----------------------------------------------------
+    // Massive radial form, ~85% viewport radius. Drifts slowly. Pulses
+    // on a separate slow period so the breathing isn't tied to drift.
+    float driftPhase = uTime * 0.045;
+    vec2 c1 = vec2(
+      (0.50 + sin(driftPhase * 1.3) * 0.20) * aspect,
+       0.52 + cos(driftPhase * 1.05) * 0.16
+    );
     float d1 = length(st - c1);
-    float b1 = 1.0 - smoothstep(0.08, 1.05, d1);
 
-    // A second, smaller, fainter wash for asymmetry. Drifts on a
-    // different slow period so they never sync up.
-    vec2 c2 = vec2((0.72 + cos(uTime * 0.034) * 0.20) * aspect,
-                    0.40 + sin(uTime * 0.041) * 0.18);
+    // Slow scale breathing — bloom inhales and exhales every ~18s
+    float breath = 1.0 + sin(uTime * 0.085) * 0.08;
+    float r1 = 0.85 * breath;
+
+    // Soft radial gradient
+    float bloom1 = 1.0 - smoothstep(0.04, r1, d1);
+
+    // Hot core — bright luminous center
+    float core1 = pow(1.0 - smoothstep(0.0, 0.18 * breath, d1), 1.8);
+
+    // ---- SECONDARY BLOOM (asymmetry) --------------------------------------
+    // Smaller, fainter, drifts on a different period.
+    float p2 = uTime * 0.038;
+    vec2 c2 = vec2(
+      (0.75 + cos(p2 * 1.4) * 0.18) * aspect,
+       0.32 + sin(p2 * 1.6) * 0.18
+    );
     float d2 = length(st - c2);
-    float b2 = 1.0 - smoothstep(0.10, 0.78, d2);
+    float bloom2 = 1.0 - smoothstep(0.02, 0.48, d2);
+    float core2 = pow(1.0 - smoothstep(0.0, 0.10, d2), 2.0);
 
-    // Combine. Lift edges with noise so the blob is never a clean circle.
-    float mask = b1 + b2 * 0.45;
-    mask = mask * (0.65 + 0.42 * n);
-    mask = clamp(mask, 0.0, 1.0);
+    // ---- BRAND PALETTE (no invented hexes) --------------------------------
+    vec3 paper     = vec3(1.000);                            // #FFFFFF
+    vec3 surface   = vec3(244.0, 246.0, 255.0) / 255.0;      // #F4F6FF
+    vec3 companion = vec3(107.0, 143.0, 245.0) / 255.0;      // #6B8FF5
+    vec3 brand     = vec3( 47.0,  90.0, 240.0) / 255.0;      // #2F5AF0
+    vec3 brandDark = vec3( 28.0,  64.0, 193.0) / 255.0;      // #1C40C1
+    vec3 luminous  = vec3(0.985, 0.993, 1.000);
 
-    // Palette — extreme restraint. Peak is barely-there pale blue.
-    vec3 paper = vec3(1.000, 1.000, 1.000);
-    vec3 whisper = vec3(0.972, 0.980, 0.998); // #F8FAFE — almost-not-there
-    vec3 mist    = vec3(0.932, 0.952, 0.998); // #EEF3FE
-    vec3 peak    = vec3(0.860, 0.895, 0.988); // #DBE4FC — pale-blue peak
-
+    // ---- COMPOSE (primary bloom first, then secondary on top) -------------
     vec3 col = paper;
-    col = mix(col, whisper, smoothstep(0.00, 0.30, mask));
-    col = mix(col, mist,    smoothstep(0.25, 0.62, mask));
-    col = mix(col, peak,    smoothstep(0.58, 0.92, mask) * 0.78);
 
-    // No grain. Pristine surface.
+    // PRIMARY: paper → surface → companion → brand → brandDark from outer
+    // halo to deepest core. Each stop uses smoothstep against the same
+    // radial bloom mask so the gradient stays clean and continuous.
+    col = mix(col, surface,   smoothstep(0.00, 0.30, bloom1) * 0.90);
+    col = mix(col, companion, smoothstep(0.20, 0.70, bloom1) * 0.78);
+    col = mix(col, brand,     smoothstep(0.45, 0.88, bloom1) * 0.62);
+    col = mix(col, brandDark, smoothstep(0.72, 0.96, bloom1) * 0.35);
+    // Hot core — bright luminous near-white at the very center
+    col = mix(col, luminous,  core1 * 0.80);
+
+    // SECONDARY: same ladder, weaker contribution
+    col = mix(col, companion, smoothstep(0.10, 0.55, bloom2) * 0.45);
+    col = mix(col, brand,     smoothstep(0.35, 0.78, bloom2) * 0.35);
+    col = mix(col, luminous,  core2 * 0.55);
 
     gl_FragColor = vec4(col, 1.0);
   }
