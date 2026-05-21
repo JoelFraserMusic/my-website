@@ -2,81 +2,84 @@ import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 /* ============================================================
-   GRADIENT — Aurora Curtains
+   GRADIENT — Aurora Curtains (Brand Gradient Edition)
 
-   Pure white page. Multiple diagonal "curtain" ribbons of brand
-   blue drift across the viewport like Northern Lights. Each
-   curtain is a heavily-blurred elliptical radial gradient on a
-   tall narrow div, rotated to an angle. Five curtains layered,
-   each with its own size / color / rotation / drift period —
-   uncorrelated, so they're never synced.
+   Each curtain uses ONE of the three official BigGeo brand
+   gradients instead of a flat color, giving the page real
+   chromatic range — from #122159 deep navy through #2F5AF0
+   primary to #89D9FF sky-blue accent.
 
-   Brand palette (no invented hexes):
-     #6B8FF5  companion (light brand blue)
-     #2F5AF0  brand primary
-     #1C40C1  brand dark
+   Brand gradients (Figma):
+     navy   #122159 → #2747BF   (deepest, dramatic)
+     brand  #1C40C1 → #2F5AF0   (punchy mid)
+     sky    #2F5AF0 → #89D9FF   (bright accent — the new color)
    ============================================================ */
 
-const curtains = [
+// SKY-DOMINANT composition. The sky gradient (#2F5AF0 → #89D9FF)
+// is the only one with cyan content, so 4 of 5 blobs use it. One small
+// navy blob anchors depth without flooding the page with purple-blue.
+const blobs = [
   {
-    // Hero curtain — biggest, brand primary, slowest drift
-    color: '47, 90, 240',
+    // BIG SKY hero — top-left
+    from: '#2F5AF0',
+    to:   '#89D9FF',
     alpha: 0.62,
-    width: '15vw',
-    height: '170vh',
-    blur: 80,
-    left: '22%',
-    rotate: -24,
-    drift: ['-12vw', '28vw'],
-    duration: 30,
+    size: '54vw',
+    blur: 105,
+    top:  '32%',
+    left: '24%',
+    drift: { x: ['-6vw', '8vw', '-4vw'], y: ['-3vh', '5vh', '-2vh'], scale: [1, 1.08, 0.96, 1] },
+    duration: 26,
   },
   {
-    // Second curtain — companion blue, mid-canvas
-    color: '107, 143, 245',
+    // SKY mid-canvas
+    from: '#2F5AF0',
+    to:   '#89D9FF',
     alpha: 0.58,
-    width: '11vw',
-    height: '185vh',
-    blur: 65,
-    left: '44%',
-    rotate: -28,
-    drift: ['-8vw', '22vw'],
+    size: '46vw',
+    blur: 95,
+    top:  '60%',
+    left: '54%',
+    drift: { x: ['0vw', '-10vw', '6vw', '0vw'], y: ['0vh', '4vh', '-6vh', '0vh'], scale: [1, 1.10, 0.94, 1] },
     duration: 24,
   },
   {
-    // Third curtain — deepest blue, right of center
-    color: '28, 64, 193',
-    alpha: 0.50,
-    width: '13vw',
-    height: '170vh',
-    blur: 75,
-    left: '64%',
-    rotate: -21,
-    drift: ['-18vw', '15vw'],
-    duration: 27,
+    // SKY right
+    from: '#2F5AF0',
+    to:   '#89D9FF',
+    alpha: 0.55,
+    size: '42vw',
+    blur: 90,
+    top:  '38%',
+    left: '78%',
+    drift: { x: ['0vw', '6vw', '-4vw', '0vw'], y: ['0vh', '-5vh', '3vh', '0vh'], scale: [1, 1.06, 0.95, 1] },
+    duration: 22,
   },
   {
-    // Fourth — slim accent on the far right
-    color: '47, 90, 240',
-    alpha: 0.45,
-    width: '9vw',
-    height: '200vh',
-    blur: 55,
-    left: '80%',
-    rotate: -32,
-    drift: ['-10vw', '20vw'],
-    duration: 21,
+    // SKY bottom-left
+    from: '#2F5AF0',
+    to:   '#89D9FF',
+    alpha: 0.48,
+    size: '36vw',
+    blur: 85,
+    top:  '78%',
+    left: '20%',
+    drift: { x: ['0vw', '8vw', '-3vw', '0vw'], y: ['0vh', '3vh', '-4vh', '0vh'], scale: [1, 1.12, 0.92, 1] },
+    duration: 28,
   },
   {
-    // Fifth — wide soft background curtain on the left
-    color: '107, 143, 245',
-    alpha: 0.38,
-    width: '18vw',
-    height: '180vh',
-    blur: 110,
-    left: '8%',
-    rotate: -19,
-    drift: ['-5vw', '35vw'],
-    duration: 33,
+    // SMALL NAVY depth anchor — bottom-right. The only non-sky blob.
+    // Kept small + low alpha so it provides gravity without spreading
+    // a purple tint across the page.
+    from: '#122159',
+    to:   '#2747BF',
+    alpha: 0.32,
+    size: '28vw',
+    blur: 100,
+    top:  '84%',
+    left: '74%',
+    drift: { x: ['0vw', '-6vw', '3vw', '0vw'], y: ['0vh', '3vh', '-2vh', '0vh'], scale: [1, 1.04, 0.98, 1] },
+    duration: 30,
   },
 ]
 
@@ -94,33 +97,39 @@ export default function Gradient() {
         background: '#ffffff',
       }}
     >
-      {curtains.map((c, i) => (
+      {blobs.map((b, i) => (
         <motion.div
           key={i}
           aria-hidden="true"
           style={{
             position: 'absolute',
-            top: '50%',
-            left: c.left,
-            width: c.width,
-            height: c.height,
-            marginTop: `calc(-${c.height} / 2)`,
-            background: `radial-gradient(ellipse 50% 50% at center, rgba(${c.color}, ${c.alpha}) 0%, rgba(${c.color}, 0) 72%)`,
-            filter: `blur(${c.blur}px)`,
+            top: b.top,
+            left: b.left,
+            width: b.size,
+            height: b.size,
+            translateX: '-50%',
+            translateY: '-50%',
+            borderRadius: '50%',
+            // Linear gradient supplies the chromatic color, radial mask
+            // supplies the circular soft-edged shape.
+            background: `linear-gradient(160deg, ${b.from} 0%, ${b.to} 100%)`,
+            maskImage: 'radial-gradient(circle, #000 0%, transparent 70%)',
+            WebkitMaskImage: 'radial-gradient(circle, #000 0%, transparent 70%)',
+            opacity: b.alpha,
+            filter: `blur(${b.blur}px)`,
             pointerEvents: 'none',
             willChange: 'transform',
           }}
-          initial={{ x: c.drift[0], rotate: c.rotate, scaleY: 1 }}
           animate={{
-            x: [c.drift[0], c.drift[1], c.drift[0]],
-            rotate: [c.rotate, c.rotate + 5, c.rotate - 2, c.rotate],
-            scaleY: [1, 1.08, 0.94, 1.04, 1],
+            x: b.drift.x,
+            y: b.drift.y,
+            scale: b.drift.scale,
           }}
           transition={{
-            duration: c.duration,
+            duration: b.duration,
             repeat: Infinity,
             ease: 'easeInOut',
-            times: [0, 0.33, 0.66, 1],
+            repeatType: 'mirror',
           }}
         />
       ))}
